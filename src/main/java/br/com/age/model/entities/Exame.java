@@ -4,18 +4,23 @@ import java.util.Date;
 
 public class Exame {
 
-	private String nomePaciente;
+	private Paciente paciente;
 	private String nomeExame;
 	private Date dataExame;
 	private String observacaoExame;
 	
-	public Exame(String nomePaciente, String nomeExame) {
-		this.nomePaciente = nomePaciente;
+	private Date criadoEm;
+	private Date atualizadoEm;
+	
+	public Exame(String nomeExame, Paciente paciente) {
+		this.paciente = paciente;
 		this.nomeExame = nomeExame;
+		criadoEm = new Date();
+		atualizadoEm = criadoEm;
 	}
 	
-	public String getNomePaciente() {
-		return nomePaciente;
+	public Paciente getPaciente() {
+		return paciente;
 	}
 	
 	public String getNomeExame() {
@@ -26,8 +31,17 @@ public class Exame {
 		return dataExame;
 	}
 	
-	public void setDataExame(Date dataExame) {
-		this.dataExame = dataExame;
+	public void setDataExame(Date dataAtual, Date dataExame) throws Exception {
+		if(verificaSeDataExameMaiorQueDataAtual(dataAtual, dataExame)) {
+			this.dataExame = dataExame;
+			setAtualizadoEm(new Date());
+			return;
+		}
+		throw new Exception("Data exame menor ou igual à data atual");
+	}
+	
+	private boolean verificaSeDataExameMaiorQueDataAtual(Date dataAtual, Date dataExame) {
+		return dataExame.after(dataAtual);
 	}
 	
 	public String getObservacaoExame() {
@@ -36,6 +50,28 @@ public class Exame {
 	
 	public void setObservacaoExame(String observacaoExame) {
 		this.observacaoExame = observacaoExame;
+		setAtualizadoEm(new Date());
+	}
+	
+	public Date getCriadoEm() {
+		return this.criadoEm;
+	}
+	
+	public Date getAtualizadoEm() {
+		return this.atualizadoEm;
+	}
+	
+	private void setAtualizadoEm(Date date) {
+		this.atualizadoEm = date;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nomeExame == null) ? 0 : nomeExame.hashCode());
+		result = prime * result + ((paciente == null) ? 0 : paciente.hashCode());
+		return result;
 	}
 
 	@Override
@@ -52,17 +88,17 @@ public class Exame {
 				return false;
 		} else if (!nomeExame.equals(other.nomeExame))
 			return false;
-		if (nomePaciente == null) {
-			if (other.nomePaciente != null)
+		if (paciente == null) {
+			if (other.paciente != null)
 				return false;
-		} else if (!nomePaciente.equals(other.nomePaciente))
+		} else if (!paciente.equals(other.paciente))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Exame [nomePaciente=" + nomePaciente + ", nomeExame=" + nomeExame + ", dataExame=" + dataExame
+		return "Exame [nomePaciente=" + paciente.getNome() + ", nomeExame=" + nomeExame + ", dataExame=" + dataExame
 				+ ", observacaoExame=" + observacaoExame + "]";
 	}
 	
