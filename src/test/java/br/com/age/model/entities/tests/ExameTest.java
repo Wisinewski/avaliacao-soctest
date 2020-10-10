@@ -1,7 +1,6 @@
 package br.com.age.model.entities.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,6 +10,7 @@ import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import br.com.age.exceptions.DatePassedException;
 import br.com.age.model.entities.Exame;
 import br.com.age.model.entities.Paciente;
 
@@ -76,8 +76,8 @@ class ExameTest {
 	}
 	
 	@Test
-	void deveEstourarExceptionAoSetarDataExameMenorQueDataAtual() throws Exception {
-		assertThrows(Exception.class, () -> {
+	void deveEstourarExceptionAoSetarDataExameMenorQueDataAtual() throws DatePassedException {
+		assertThrows(DatePassedException.class, () -> {
 			dataExame.setTime(dataAtual.getTime());
 			setDataExame(dataExame);
 		});
@@ -87,8 +87,8 @@ class ExameTest {
 	void exameDevePossuirDataAtualizacaoDiferenteDeDataCriacao() throws Exception {
 		dataExame.setTime(dataAtual.getTime() + 1000);
 		
-		// simular tempo corrido até uma atualização ocorrer manualmente
-		Thread.sleep(1000);
+		// simula tempo corrido até uma atualização ocorrer manualmente
+		Thread.sleep(1);
 		
 		setDataExame(dataExame);
 		assertNotEquals(exame.getCriadoEm(), exame.getAtualizadoEm());

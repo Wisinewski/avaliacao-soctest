@@ -1,5 +1,6 @@
 package br.com.age.db;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
+import br.com.age.exceptions.DbException;
 
 public class DB {
 
@@ -38,7 +41,7 @@ public class DB {
 	}
 	
 	private static Properties loadProperties() {
-		try (FileInputStream fs = new FileInputStream("db.properties")) {
+		try (FileInputStream fs = new FileInputStream(new File(".").getCanonicalPath() + "/db.properties")) {
 			Properties props = new Properties();
 			props.load(fs);
 			return props;

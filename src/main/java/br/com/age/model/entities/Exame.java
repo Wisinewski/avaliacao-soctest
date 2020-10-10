@@ -2,6 +2,8 @@ package br.com.age.model.entities;
 
 import java.util.Date;
 
+import br.com.age.exceptions.DatePassedException;
+
 public class Exame {
 
 	private Paciente paciente;
@@ -31,13 +33,13 @@ public class Exame {
 		return dataExame;
 	}
 	
-	public void setDataExame(Date dataAtual, Date dataExame) throws Exception {
+	public void setDataExame(Date dataAtual, Date dataExame) throws DatePassedException {
 		if(verificaSeDataExameMaiorQueDataAtual(dataAtual, dataExame)) {
 			this.dataExame = dataExame;
 			setAtualizadoEm(new Date());
 			return;
 		}
-		throw new Exception("Data exame menor ou igual à data atual");
+		throw new DatePassedException("Data exame menor ou igual à data atual");
 	}
 	
 	private boolean verificaSeDataExameMaiorQueDataAtual(Date dataAtual, Date dataExame) {

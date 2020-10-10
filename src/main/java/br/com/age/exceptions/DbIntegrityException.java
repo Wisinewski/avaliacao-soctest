@@ -1,4 +1,4 @@
-package br.com.age.db;
+package br.com.age.exceptions;
 
 public class DbIntegrityException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
